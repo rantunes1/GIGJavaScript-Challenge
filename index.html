@@ -9,7 +9,8 @@
         <script src="node_modules/angular-resource/angular-resource.js"></script>
         <script src="dist/country-list-cli.js"></script>
         <script src="js/app.js"></script>
-        <script src="js/utils/CountriesList.js"></script>     
+        <script src="js/country/CountriesList.js"></script>     
+        <script src="js/country/CountryNameFilter.js"></script>     
         <script src="js/contacts-list/ContactListController.js"></script>
         <script src="js/contact/ContactService.js"></script>     
         <script src="js/contact/ContactController.js"></script>        
@@ -22,7 +23,9 @@
     <script type="text/ng-template" id="contacts-list.html">
         <div>
             <h4>Contacts:</h4>
-            <a class="btn btn-primary" ng-href="#/add" role="button">Add Contact</a>
+            <p>
+                <a class="btn btn-primary" ng-href="#/add" role="button">Add Contact</a>
+            </p>    
             <ul class="list-group">
                 <li class="list-group-item"> 
                     <h4 class="row">
@@ -35,7 +38,9 @@
                 </li>        
                 <contact class="list-group-item" ng-repeat="contact in contacts | orderBy: 'firstname' "></contact>            
             </ul>         
-            <a class="btn btn-primary" ng-href="#/add" role="button">Add Contact</a>
+            <p>
+                <a class="btn btn-primary" ng-href="#/add" role="button">Add Contact</a>
+            </p>
         </div>
     </script>
     
@@ -45,7 +50,7 @@
                 <span class="col-md-2">{{contact.firstname}}</span>
                 <span class="col-md-2">{{contact.lastname}}</span>
                 <span class="col-md-2">{{contact.email}}</span>
-                <span class="col-md-2">{{contact.country}}</span>
+                <span class="col-md-2">{{contact.country | countryName }}</span>
                 <span class="col-md-1">
                     <a class="btn btn-default" ng-href="#/edit/{{contact.id}}" role="button" title="Edit Contact">
                         <span class="glyphicon glyphicon-pencil"></span>
@@ -64,19 +69,21 @@
             <div class="form-group">
                 <p>
                     <label for="firstname">First name: </label> 
-                    <input id="firstname" class="form-control" type="text" ng-model="contact.firstname"> 
+                    <input id="firstname" name="firstname" class="form-control" type="text" ng-model="contact.firstname"> 
                 </p>
                 <p>
                     <label for="lastname">Last name: </label> 
-                    <input id="lastname" class="form-control" type="text" ng-model="contact.lastname"> 
+                    <input id="lastname" name="lastname" class="form-control" type="text" ng-model="contact.lastname"> 
                 </p>
                 <p>
                     <label for="email">Email:</label> 
-                    <input id="email" class="form-control" type="text" ng-model="contact.email"> 
+                    <input id="email" name="email" class="form-control" type="text" ng-model="contact.email"> 
                 </p>
                 <p>
                     <label for="country">Country:</label> 
-                    <select id="country" class="form-control" ng-model="contact.country" ></select> 
+                    <select id="country" name="country" class="form-control" ng-model="contact.country">
+                        <option ng-repeat="country in countries" value="{{country.code}}">{{country.name}}</option>
+                    </select> 
                 </p>
                 <button class="btn btn-primary" ng-click="saveContact()">
                     <span class="glyphicon glyphicon-ok"></span>

@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build-js": "browserify node_modules/country-list/country-list.js --standalone CountryList > dist/country-list-cli.js",
-    "launch-server": "http-server ./ -a localhost -p 8000 -c-1", 
+    "launch-server": "http-server ./ -a localhost -p 8000 -c-1",
     "start": "npm run build-js && npm run launch-server"
   }
 }
