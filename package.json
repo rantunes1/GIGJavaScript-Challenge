@@ -10,10 +10,19 @@
   "author": "Ricardo Antunes",
   "license": "MIT",
   "dependencies": {
+    "angular": "^1.6.9",
+    "angular-resource": "^1.6.9",
+    "angular-route": "^ 1.6.9",
+    "bootstrap": "^3.3.7",
+    "country-list": "^1.1.0"
+  },
+  "devDependencies": {
+    "browserify": "^16.2.0",
     "http-server": "^0.10.0"
   },
-
   "scripts": {
-    "start": "http-server ./ -a localhost -p 8000 -c-1"
+    "build-js": "browserify node_modules/country-list/country-list.js --standalone CountryList > dist/country-list-cli.js",
+    "launch-server": "http-server ./ -a localhost -p 8000 -c-1", 
+    "start": "npm run build-js && npm run launch-server"
   }
 }

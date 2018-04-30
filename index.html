@@ -1,12 +1,89 @@
 <!doctype html>
-<html ng-app="project">
-  <head>
-    <title>GIG Challenge</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-resource.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.min.js"></script>    
-  </head>
-  <body>
-    <div ng-view></div>
-  </body>
+<html ng-app="gig">
+    <head>
+        <title>GIG Challenge</title>
+        <style>[ng-cloak] { display: none; }</style>
+        <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="node_modules/angular/angular.js"></script>
+        <script src="node_modules/angular-route/angular-route.js"></script>
+        <script src="node_modules/angular-resource/angular-resource.js"></script>
+        <script src="dist/country-list-cli.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/utils/CountriesList.js"></script>     
+        <script src="js/contacts-list/ContactListController.js"></script>
+        <script src="js/contact/ContactService.js"></script>     
+        <script src="js/contact/ContactController.js"></script>        
+        <script src="js/contact/ContactDirective.js"></script>        
+    </head>
+    <body>
+        <div class="container-fluid" ng-view></div>
+    </body>
+    
+    <script type="text/ng-template" id="contacts-list.html">
+        <div>
+            <h4>Contacts:</h4>
+            <a class="btn btn-primary" ng-href="#/add" role="button">Add Contact</a>
+            <ul class="list-group">
+                <li class="list-group-item"> 
+                    <h4 class="row">
+                        <span class="col-md-2">First name</span>
+                        <span class="col-md-2">Last name</span>
+                        <span class="col-md-2">Email</span>
+                        <span class="col-md-2">Country</span>
+                        <span class="col-md-1"></span>
+                    </h4>
+                </li>        
+                <contact class="list-group-item" ng-repeat="contact in contacts | orderBy: 'firstname' "></contact>            
+            </ul>         
+            <a class="btn btn-primary" ng-href="#/add" role="button">Add Contact</a>
+        </div>
+    </script>
+    
+    <script type="text/ng-template" id="contact.html">
+        <li class="list-group-item">
+            <div class="row">
+                <span class="col-md-2">{{contact.firstname}}</span>
+                <span class="col-md-2">{{contact.lastname}}</span>
+                <span class="col-md-2">{{contact.email}}</span>
+                <span class="col-md-2">{{contact.country}}</span>
+                <span class="col-md-1">
+                    <a class="btn btn-default" ng-href="#/edit/{{contact.id}}" role="button" title="Edit Contact">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>            
+                    <button class="btn btn-danger" ng-click="removeContact(contact.id)" title="Remove Contact">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>          
+                </span>
+            </div>
+        </li>
+    </script>
+    
+    <script type="text/ng-template" id="contact-form.html">
+        <div>
+            <h4>{{contact.id ? 'Edit' : 'Add'}} Contact:</h4>
+            <div class="form-group">
+                <p>
+                    <label for="firstname">First name: </label> 
+                    <input id="firstname" class="form-control" type="text" ng-model="contact.firstname"> 
+                </p>
+                <p>
+                    <label for="lastname">Last name: </label> 
+                    <input id="lastname" class="form-control" type="text" ng-model="contact.lastname"> 
+                </p>
+                <p>
+                    <label for="email">Email:</label> 
+                    <input id="email" class="form-control" type="text" ng-model="contact.email"> 
+                </p>
+                <p>
+                    <label for="country">Country:</label> 
+                    <select id="country" class="form-control" ng-model="contact.country" ></select> 
+                </p>
+                <button class="btn btn-primary" ng-click="saveContact()">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    <span>Save</span>
+                </button>          
+                <a class="btn btn-default" ng-href="#/" role="button">Cancel</a>            
+            </div>    
+        </div>
+    </script>
 </html>
