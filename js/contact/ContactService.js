@@ -1,45 +1,49 @@
 angular.module('gig')
     .factory('ContactService', [function () {
+        var STORAGE_ID = 'GIG-Storage'
+        
+        var loadFromLocalStorage = function () {
+            return JSON.parse(localStorage.getItem(STORAGE_ID) || '[]');
+        };
+        
+        var saveToLocalStorage = function (contacts) {
+            localStorage.setItem(STORAGE_ID, JSON.stringify(contacts));
+        };
+        
         var getContacts = function () {
-          return contactList;
-        }
+          return loadFromLocalStorage();
+        };      
 
         var getContact = function (contactId) {
-            return contactList.filter(function (contact) {
+            return getContacts().filter(function (contact) {
                 return contact.id === contactId;
             })[0];
         };
 
         var saveContact = function (contact) {
+            var updatedContact;
+            var contactList;
             if (contact.id) {
-                var updatedContact = angular.extend({}, getContact(contact.id), contact);
+                updatedContact = angular.extend({}, getContact(contact.id), contact);
                 removeContact(contact.id);
+                contactList = getContacts();
             } else {
-                var lastId = Math.max(...contactList.map(function (contact) { return parseInt(contact.id, 10) }));
-                contact.id = String(lastId++);
+                updatedContact = angular.extend({}, contact);
+                contactList = getContacts();
+                var lastId = contactList.length ? Math.max(...contactList.map(function (contact) { return parseInt(contact.id, 10) })) : 0;
+                updatedContact.id = String(++lastId);
             }
-            contactList.push(contact);
+            contactList.push(updatedContact);
+            saveToLocalStorage(contactList);
+            return updatedContact;
         };
 
         var removeContact = function (contactId) {
-            console.log('removing contact', contactId);
+            var contactList = getContacts();
             var index = contactList.map(function (contact) { return contact.id }).indexOf(contactId);
             contactList.splice(index, 1);
+            saveToLocalStorage(contactList);
         };   
-
-        // contact list sample data from https://www.json-generator.com
-        var contactList = [
-            {'id': '1', 'firstname': 'Tara', 'lastname': 'Glenn', 'email': 'taraglenn@joviold.com', 'country': 'ES'},
-            {'id': '2', 'firstname': 'Michele', 'lastname': 'Solis', 'email': 'michelesolis@joviold.com', 'country': 'GB'},
-            {'id': '3', 'firstname': 'Winnie', 'lastname': 'Fisher', 'email': 'winniefisher@joviold.com', 'country': 'GB'},
-            {'id': '4', 'firstname': 'Sykes', 'lastname': 'Combs', 'email': 'sykescombs@joviold.com', 'country': 'ES'},
-            {'id': '5', 'firstname': 'Nell', 'lastname': 'Simmons', 'email': 'nellsimmons@joviold.com', 'country': 'ES'},
-            {'id': '6', 'firstname': 'Hicks', 'lastname': 'Jacobs', 'email': 'hicksjacobs@joviold.com', 'country': 'ES'},
-            {'id': '7', 'firstname': 'Yang', 'lastname': 'Hardin', 'email': 'yanghardin@joviold.com', 'country': 'GB'},
-            {'id': '8', 'firstname': 'Berg', 'lastname': 'Ratliff', 'email': 'bergratliff@joviold.com', 'country': 'ES'},
-            {'id': '9', 'firstname': 'Erica', 'lastname': 'Snider', 'email': 'ericasnider@joviold.com', 'country': 'GB'},
-            {'id': '10', 'firstname': 'Eloise', 'lastname': 'Gallegos', 'email': 'eloisegallegos@joviold.com', 'country': 'GB'}
-        ];
 
         return {
             getContacts: getContacts,

@@ -23,22 +23,30 @@
     
     <script type="text/ng-template" id="contacts-list.html">
         <div>
-            <h4>Contacts:</h4>
+            <div class="page-header">
+                <h4>Contacts:</h4>
+            </div>
+            
             <p>
                 <a class="btn btn-primary" ng-href="#/add" role="button">Add Contact</a>
             </p>    
+            
             <ul class="list-group">
                 <li class="list-group-item"> 
-                    <h4 class="row">
-                        <span class="col-md-2">First name</span>
-                        <span class="col-md-2">Last name</span>
-                        <span class="col-md-2">Email</span>
-                        <span class="col-md-2">Country</span>
-                        <span class="col-md-1"></span>
-                    </h4>
+                    <div class="row">
+                        <h4 class="row text-center">
+                            <span class="col-md-3">First name</span>
+                            <span class="col-md-3">Last name</span>
+                            <span class="col-md-3">Email</span>
+                            <span class="col-md-2">Country</span>
+                            <span class="col-md-1"></span>
+                        </h4>
+                    </div>
                 </li>        
+                <div class="well well-lg text-center" ng-show="!contacts.length">Contacts list is empty!</div>
                 <contact class="list-group-item" ng-repeat="contact in contacts | orderBy: 'firstname' "></contact>            
             </ul>         
+            
             <p>
                 <a class="btn btn-primary" ng-href="#/add" role="button">Add Contact</a>
             </p>
@@ -48,9 +56,9 @@
     <script type="text/ng-template" id="contact.html">
         <li class="list-group-item">
             <div class="row">
-                <span class="col-md-2">{{contact.firstname}}</span>
-                <span class="col-md-2">{{contact.lastname}}</span>
-                <span class="col-md-2">{{contact.email}}</span>
+                <span class="col-md-3">{{contact.firstname}}</span>
+                <span class="col-md-3">{{contact.lastname}}</span>
+                <span class="col-md-3">{{contact.email}}</span>
                 <span class="col-md-2">{{contact.country | countryName }}</span>
                 <span class="col-md-1">
                     <a class="btn btn-default" ng-href="#/edit/{{contact.id}}" role="button" title="Edit Contact">
@@ -66,38 +74,41 @@
     
     <script type="text/ng-template" id="contact-form.html">
         <div>
-            <h4>{{contact.id ? 'Edit' : 'Add'}} Contact:</h4>
+            <div class="page-header">
+                <h4>{{contact.id ? 'Edit' : 'Add'}} Contact:</h4>
+            </div>
+            
             <form name="contactForm" novalidate>
                 <div class="form-group">
                     <label for="firstname">
                         <span>First name:</span>
-                        <input id="firstname" name="firstname" class="form-control" type="text" ng-model="contact.firstname" required> 
-                        <span class="text-danger" ng-show="contactForm.firstname.$touched && contactForm.firstname.$error.required">This field is required!</span>
+                        <input id="firstname" name="firstname" class="form-control" type="text" ng-model="contact.firstname" required autofocus>                         
                     </label>
+                    <span class="text-danger" ng-show="contactForm.firstname.$touched && contactForm.firstname.$error.required">This field is required!</span>
                 </div>
                 <div class="form-group">
                     <label for="lastname">
                         <span>Last name:</span>
-                        <input id="lastname" name="lastname" class="form-control" type="text" ng-model="contact.lastname" required> 
-                        <span class="text-danger" ng-show="contactForm.lastname.$touched && contactForm.lastname.$error.required">This field is required!</span>
+                        <input id="lastname" name="lastname" class="form-control" type="text" ng-model="contact.lastname" required>                         
                     </label>
+                    <span class="text-danger" ng-show="contactForm.lastname.$touched && contactForm.lastname.$error.required">This field is required!</span>
                 </div>
                 <div class="form-group">
                     <label for="email">
                         <span>Email:</span>
                         <input id="email" name="email" class="form-control" type="text" ng-model="contact.email"  email-validator required> 
-                        <span class="text-danger" ng-show="contactForm.email.$touched && contactForm.email.$error.required">This field is required!</span>
-                        <span class="text-danger" ng-show="contactForm.email.$touched && contactForm.email.$error.email">Please enter a valid email address</span>
                     </label>
+                    <span class="text-danger" ng-show="contactForm.email.$touched && contactForm.email.$error.required">This field is required!</span>
+                    <span class="text-danger" ng-show="contactForm.email.$touched && contactForm.email.$error.email">Please enter a valid email address</span>                    
                 </div>
                 <div class="form-group">
                     <label for="country">
                         <span>Country:</span>
                         <select id="country" name="country" class="form-control" ng-model="contact.country" required>
                             <option ng-repeat="country in countries" value="{{country.code}}">{{country.name}}</option>
-                        </select> 
-                        <span class="text-danger" ng-show="contactForm.country.$touched && contactForm.country.$error.required">This field is required!</span>
+                        </select>                         
                     </label>
+                    <span class="text-danger" ng-show="contactForm.country.$touched && contactForm.country.$error.required">This field is required!</span>
                 </div>
                 <div class="form-group">
                     <button class="btn" 
