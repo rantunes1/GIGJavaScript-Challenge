@@ -8,7 +8,7 @@ This project is an implementation of the GIG Javascript Challenge (https://githu
 
 ```
 $ git clone https://github.com/rantunes1/GIGJavaScript-Challenge.git
-$ cd GIG-JS-Challenge
+$ cd GIGJavaScript-Challenge
 $ npm install
 $ npm run start
 ```
