@@ -12,8 +12,13 @@ $ cd GIGJavaScript-Challenge
 $ npm install
 $ npm run start
 ```
-
 then browse to http://localhost:8000
+
+## Running Unit Tests
+
+```
+$ npm run test
+```
 
 ## License
 
