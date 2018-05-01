@@ -18,4 +18,4 @@ angular.module('gig', ['ngRoute'])
         controller: 'contactCtrl'
       })
       .otherwise({redirectTo: '/'})
-  })
+  });

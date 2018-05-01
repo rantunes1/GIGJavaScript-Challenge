@@ -1,6 +1,6 @@
 angular.module('gig')
     .run(['$window', function ($window) {
-        if (!$window.CountryList) { 
+        if (!$window.CountryList) {
             throw new Error('missing <country-list-cli.js>');
         }
     }

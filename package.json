@@ -1,6 +1,6 @@
 {
   "name": "GIG-JS-Challenge",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An implementation of the GIG Javascript Challenge (https://github.com/GiG/recruitment-cases/tree/master/js-developer) using angularjs (1.6.x)",
   "repository": {
     "type": "git",
@@ -15,12 +15,21 @@
     "country-list": "^1.1.0"
   },
   "devDependencies": {
+    "angular-mocks": "^1.6.10",
     "browserify": "^16.2.0",
-    "http-server": "^0.10.0"
+    "http-server": "^0.10.0",
+    "jasmine": "^3.1.0",
+    "karma": "^2.0.2",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-jasmine": "^1.1.1"
   },
   "scripts": {
-    "build-js": "browserify node_modules/country-list/country-list.js --standalone CountryList > dist/country-list-cli.js",
+    "build-js": "browserify node_modules/country-list/country-list.js --standalone CountryList > node_modules/country-list/country-list-cli.js",
     "launch-server": "http-server ./ -a localhost -p 8000 -c-1",
-    "start": "npm run build-js && npm run launch-server"
+    "pretest": "npm run build-js",
+    "test": "karma start karma.conf.js",
+    "prestart": "npm run build-js",
+    "start": "npm run launch-server"
   }
 }

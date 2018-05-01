@@ -1,18 +1,18 @@
 angular.module('gig')
     .factory('ContactService', [function () {
         var STORAGE_ID = 'GIG-Storage'
-        
+
         var loadFromLocalStorage = function () {
             return JSON.parse(localStorage.getItem(STORAGE_ID) || '[]');
         };
-        
+
         var saveToLocalStorage = function (contacts) {
             localStorage.setItem(STORAGE_ID, JSON.stringify(contacts));
         };
-        
+
         var getContacts = function () {
           return loadFromLocalStorage();
-        };      
+        };
 
         var getContact = function (contactId) {
             return getContacts().filter(function (contact) {
@@ -43,7 +43,7 @@ angular.module('gig')
             var index = contactList.map(function (contact) { return contact.id }).indexOf(contactId);
             contactList.splice(index, 1);
             saveToLocalStorage(contactList);
-        };   
+        };
 
         return {
             getContacts: getContacts,

@@ -13,7 +13,7 @@ $ npm install
 $ npm run start
 ```
 
-then browse to localhost:8000
+then browse to http://localhost:8000
 
 ## License
 
