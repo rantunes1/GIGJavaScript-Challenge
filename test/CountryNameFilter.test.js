@@ -22,7 +22,7 @@ describe('CountryNameFilter', function() {
         expect(countryName).toEqual(null);
     });
 
-    it('returns the correct value when given a string of chars', function() {
+    it('returns the country name from its code', function() {
         var getCountriesSpy = spyOn(CountriesList, 'getData').and.callFake(function(){
             return [{
                 code: 'country code',
